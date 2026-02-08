@@ -34,20 +34,4 @@ jobs:
           python scripts/03_build_features.py
           python scripts/04_train_predict.py
 
-      - name: Commit updated data files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Always sync with remote first (prevents "fetch first")
-          git fetch origin main
-          git rebase origin/main || git rebase --abort
-
-          git add data/processed/*.parquet data/models/*.pkl || true
-          git commit -m "Auto-update data & forecasts" || echo "No changes to commit"
-
-          # Rebase again in case another commit happened during the run
-          git fetch origin main
-          git rebase origin/main || git rebase --abort
-
-          git push origin HEAD:main
+      
