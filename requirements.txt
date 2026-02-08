@@ -6,3 +6,5 @@ requests
 streamlit
 gridstatus
 joblib
+altair==4.2.2
+
