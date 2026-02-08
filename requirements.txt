@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn
+pyarrow
+requests
+streamlit
+gridstatus
+joblib

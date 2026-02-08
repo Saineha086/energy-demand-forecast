@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Data (optional: keep parquet if you want)
+# data/processed/
+# data/models/
+
+# OS files
+.DS_Store
+Thumbs.db

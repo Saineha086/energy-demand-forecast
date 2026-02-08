@@ -1,0 +1,43 @@
+name: Update data & forecasts
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pipeline scripts
+        run: |
+          python scripts/01_fetch_grid.py
+          python scripts/02_fetch_weather.py
+          python scripts/02b_fetch_weather_forecast.py
+          python scripts/03_build_features.py
+          python scripts/04_train_predict.py
+
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/*.parquet data/models/*.pkl || true
+          git commit -m "Auto-update data & forecasts" || echo "No changes to commit"
+          git push
